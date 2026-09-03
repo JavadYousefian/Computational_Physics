@@ -1,0 +1,13 @@
+#!/bin/bash
+
+mkdir -p backups
+
+# Create a timestamp with second precision
+timestamp=$(date +"%Y-%m-%d_%H-%M-%S") 
+
+# Create a backup of the src directory that includes time/date like it is asked
+tar -cf "backups/backup_${timestamp}.tar" src
+
+# Keep only the 3 most recent backup files
+ls -1t backups/backup_*.tar | tail -n +4 | xargs -r rm -f
+

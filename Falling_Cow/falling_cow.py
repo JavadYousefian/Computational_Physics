@@ -55,3 +55,34 @@ def calc_energy(x_0, y_0, v_x, v_y, mass):
 
     return Kinetic_energy, Potential_energy, Total_energy
 
+# Empty lists to save everything
+times = []
+x_all = []
+y_all = []
+v_x_all = []
+v_y_all = []
+KE_all = []
+PE_all = []
+total_all = []
+
+# Until it reaches the ground the loop continues and starts from 1000 we set at initial variables
+while y_0 > 0:
+
+    times.append(t)
+    x_all.append(x_0)
+    y_all.append(y_0)
+    v_x_all.append(v_x)
+    v_y_all.append(v_y)
+
+    Kinetic_energy, Potential_energy, Total_energy = calc_energy(x_0, y_0, v_x, v_y, mass)
+    KE_all.append(Kinetic_energy)
+    PE_all.append(Potential_energy)
+    total_all.append(Total_energy)
+
+    f_x, f_y = calc_force(x_0, y_0, v_x, v_y, mass, drag)
+
+    v_x, v_y = update_velocity(v_x, v_y, f_x, f_y, mass, time_step)
+    x_0, y_0 = update_position(x_0, y_0, v_x, v_y, time_step)
+
+    t = t + time_step
+

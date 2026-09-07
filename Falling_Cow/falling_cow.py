@@ -26,6 +26,17 @@ def get_force(x_0, y_0, v_x, v_y, mass, drag):
 
     return f_x, f_y
 
+# Velocity Function
+def update_velocity(v_x, v_y, f_x, f_y, mass, time_step):
+
+    a_x = f_x / mass
+    a_y = f_y / mass
+
+    new_v_x = v_x + a_x * time_step
+    new_v_y = v_y + a_y * time_step
+
+    return new_v_x, new_v_y
+
 
 
 

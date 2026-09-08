@@ -86,30 +86,6 @@ while y_0 > 0:
 
     t = t + time_step
 
-
-def generate_plots(self):
-        read_header = read_header_file(run_number) #call a function
-        samp = int(read_header[0]['sample_interval']) #then define one of the returns of that function
-        print('samp', samp)
-        print('sensor names',sensors)
-        global sensor_data
-    
-
-        for line, column in zip(sensors,stored_data): #this has to be for position x and position y
-        #for line in read_header[2]:         
-            # Create a plot in the tab
-            figure = plt.Figure()
-            ax = figure.add_subplot(111)
-            global x
-            #ax.plot(x_values,column) #read_header[0]['sample_interval]
-            x = [] #This is how we're multiplying our x-values in the plot with the sample interval
-            for i in range(0,len(column)):
-                x_values=i * samp
-                x.append(x_values)
-            ax.plot(x,column)
-            ax.set_xlabel('X')
-            ax.set_ylabel('Y')
-            ax.set_ylim(min(column)* 0.9, max(column) * 1.1) 
-            ax.set_title('Plot for {}'.format(tab_name))
-            canvas.show()
-         
+plt.plot(x_all, y_all)
+plt.savefig("trajectory.png")
+plt.show()

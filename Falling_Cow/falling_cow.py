@@ -1,6 +1,8 @@
 # Importing Packages
 import math
 import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
 
 
 # Initial Conditions
@@ -9,7 +11,7 @@ v_y = 100
 drag = 0
 x_0 = 0
 y_0 = 1000
-time_step = 0.001
+time_step = 0.000001
 t = 0
 mass = 1000
 g = 9.8
@@ -87,29 +89,26 @@ while y_0 > 0:
     t = t + time_step
 
 
-def generate_plots(self):
-        read_header = read_header_file(run_number) #call a function
-        samp = int(read_header[0]['sample_interval']) #then define one of the returns of that function
-        print('samp', samp)
-        print('sensor names',sensors)
-        global sensor_data
-    
+def generate_plots(): 
 
-        for line, column in zip(sensors,stored_data): #this has to be for position x and position y
-        #for line in read_header[2]:         
-            # Create a plot in the tab
-            figure = plt.Figure()
-            ax = figure.add_subplot(111)
-            global x
-            #ax.plot(x_values,column) #read_header[0]['sample_interval]
-            x = [] #This is how we're multiplying our x-values in the plot with the sample interval
-            for i in range(0,len(column)):
-                x_values=i * samp
-                x.append(x_values)
-            ax.plot(x,column)
-            ax.set_xlabel('X')
-            ax.set_ylabel('Y')
-            ax.set_ylim(min(column)* 0.9, max(column) * 1.1) 
-            ax.set_title('Plot for {}'.format(tab_name))
-            canvas.show()
-         
+        fig, (ax1, ax2) = plt.subplots (1, 2, figsize=(10,4))
+
+        ax1.plot(x_all, y_all)
+        ax1.set_title("total trajectory")
+        ax1.set_xlabel("horizontal position")
+        ax1.set_ylabel("vertical position")
+        
+
+        ax2.plot(times, KE_all, label='kinetic')
+        ax2.plot(times, PE_all, label='potential')
+        ax2.plot(times, total_all, label = 'total')
+        ax2.set_title("energies")
+        ax2.set_xlabel("time")
+        ax2.set_ylabel("different energies")
+        ax2.legend()
+        plt.tight_layout()
+        plt.show()
+
+
+generate_plots()
+

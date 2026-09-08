@@ -1,6 +1,8 @@
 # Importing Packages
 import math
 import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
 
 
 # Initial Conditions
@@ -9,7 +11,7 @@ v_y = 100
 drag = 0
 x_0 = 0
 y_0 = 1000
-time_step = 0.001
+time_step = 0.0001
 t = 0
 mass = 1000
 g = 9.8
@@ -86,6 +88,28 @@ while y_0 > 0:
 
     t = t + time_step
 
-plt.plot(x_all, y_all)
-plt.savefig("trajectory.png")
-plt.show()
+
+def generate_plots(): 
+
+        fig, (ax1, ax2) = plt.subplots (1, 2, figsize=(10,4))
+
+        ax1.plot(x_all, y_all)
+        ax1.set_title("total trajectory")
+        ax1.set_xlabel("horizontal position")
+        ax1.set_ylabel("vertical position")
+        
+
+        ax2.plot(times, KE_all, label='kinetic')
+        ax2.plot(times, PE_all, label='potential')
+        ax2.plot(times, total_all, label = 'total')
+        ax2.set_title("energies")
+        ax2.set_xlabel("time")
+        ax2.set_ylabel("different energies")
+        ax2.legend()
+        plt.tight_layout()
+        plt.savefig("for Nitz")
+        plt.show()
+
+
+generate_plots()
+>>>>>>> a5886ec80183ea277fb52e46b2c9326d334d6627

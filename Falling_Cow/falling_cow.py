@@ -110,5 +110,5 @@ def generate_plots():
         plt.show()
 
 
-generate_plots()
+
 

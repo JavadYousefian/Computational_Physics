@@ -107,7 +107,7 @@ def generate_plots():
         ax2.set_ylabel("different energies")
         ax2.legend()
         plt.tight_layout()
-        plt.safefig("for Nitz")
+        plt.savefig("for Nitz")
         plt.show()
 
 

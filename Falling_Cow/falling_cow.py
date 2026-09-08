@@ -11,7 +11,7 @@ v_y = 100
 drag = 0
 x_0 = 0
 y_0 = 1000
-time_step = 0.000001
+time_step = 0.0001
 t = 0
 mass = 1000
 g = 9.8
@@ -107,8 +107,8 @@ def generate_plots():
         ax2.set_ylabel("different energies")
         ax2.legend()
         plt.tight_layout()
+        plt.safefig("for Nitz")
         plt.show()
 
 
-
-
+generate_plots()

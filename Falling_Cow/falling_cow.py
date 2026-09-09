@@ -112,4 +112,3 @@ def generate_plots():
 
 
 generate_plots()
->>>>>>> a5886ec80183ea277fb52e46b2c9326d334d6627

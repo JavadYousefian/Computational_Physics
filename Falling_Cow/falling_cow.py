@@ -1,8 +1,6 @@
 # Importing Packages
 import math
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
 
 
 # Initial Conditions
@@ -89,26 +87,69 @@ while y_0 > 0:
     t = t + time_step
 
 
-def generate_plots(): 
+def generate_plots():
 
-        fig, (ax1, ax2) = plt.subplots (1, 2, figsize=(10,4))
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
 
         ax1.plot(x_all, y_all)
         ax1.set_title("total trajectory")
         ax1.set_xlabel("horizontal position")
         ax1.set_ylabel("vertical position")
-        
+
 
         ax2.plot(times, KE_all, label='kinetic')
         ax2.plot(times, PE_all, label='potential')
-        ax2.plot(times, total_all, label = 'total')
+        ax2.plot(times, total_all, label='total')
         ax2.set_title("energies")
         ax2.set_xlabel("time")
         ax2.set_ylabel("different energies")
         ax2.legend()
         plt.tight_layout()
-        plt.savefig("for Nitz")
+        plt.show()
+
+
+# Saving the data in a txt file
+def write_trajectory_file(filename, times, x_all, y_all):
+
+    output = open(filename, "w")
+    output.write("time position_x position_y\n")
+    for i in range(len(times)):
+        output.write(f"{times[i]:.6f} {x_all[i]:.6f} {y_all[i]:.6f}\n")
+    output.close()
+    print("wrote " + filename)
+
+
+# Analytic solution (no drag), for comparison
+def analytic_trajectory(v_x0, v_y0, x0, y0, t_end, n=500):
+
+    x_analytic = []
+    y_analytic = []
+
+    for i in range(n):
+        t = t_end * i / (n - 1)
+        x_analytic.append(x0 + v_x0 * t)
+        y_analytic.append(y0 + v_y0 * t - 0.5 * g * t**2)
+
+    return x_analytic, y_analytic
+
+
+# Plot the numerical vs analytic trajectory
+def generate_analytic_plot():
+
+        x_analytic, y_analytic = analytic_trajectory(1, 100, 0, 1000, times[-1])
+
+        plt.figure(figsize=(6, 4))
+        plt.plot(x_all, y_all, label="numerical")
+        plt.plot(x_analytic, y_analytic, "--", label="analytic")
+        plt.title("numerical vs analytic (drag free)")
+        plt.xlabel("horizontal position")
+        plt.ylabel("vertical position")
+        plt.legend()
+        plt.tight_layout()
+        plt.savefig("Plot.png")
         plt.show()
 
 
 generate_plots()
+write_trajectory_file("data.txt", times, x_all, y_all)
+generate_analytic_plot()

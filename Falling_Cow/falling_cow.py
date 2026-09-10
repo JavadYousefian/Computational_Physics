@@ -6,10 +6,12 @@ import matplotlib.pyplot as plt
 # Initial Conditions
 v_x = 1
 v_y = 100
+# We changed the drag to 4 as asked here and ran the code again so did not write a function based on that again 
 drag = 0
 x_0 = 0
 y_0 = 1000
-time_step = 0.0001
+# We changed the time_step to different numbers as asked here and ran the code again so did not write a function based on that again 
+time_step = 0.001
 t = 0
 mass = 1000
 g = 9.8
@@ -86,6 +88,31 @@ while y_0 > 0:
 
     t = t + time_step
 
+# Run the simulation for a given dt and drag 
+def run_simulation(v_x, v_y, x_0, y_0, mass, drag, time_step):
+
+    t = 0
+    times = []; x_all = []; y_all = []
+    v_x_all = []; v_y_all = []
+    KE_all = []; PE_all = []; total_all = []
+
+    while y_0 > 0:
+        times.append(t)
+        x_all.append(x_0); y_all.append(y_0)
+        v_x_all.append(v_x); v_y_all.append(v_y)
+
+        Kinetic_energy, Potential_energy, Total_energy = calc_energy(x_0, y_0, v_x, v_y, mass)
+        KE_all.append(Kinetic_energy)
+        PE_all.append(Potential_energy)
+        total_all.append(Total_energy)
+
+        f_x, f_y = calc_force(x_0, y_0, v_x, v_y, mass, drag)
+        v_x, v_y = update_velocity(v_x, v_y, f_x, f_y, mass, time_step)
+        x_0, y_0 = update_position(x_0, y_0, v_x, v_y, time_step)
+        t = t + time_step
+
+    return times, x_all, y_all, v_x_all, v_y_all, KE_all, PE_all, total_all
+
 
 def generate_plots():
 
@@ -105,6 +132,7 @@ def generate_plots():
         ax2.set_ylabel("different energies")
         ax2.legend()
         plt.tight_layout()
+        plt.savefig("Trajectories and Energy.png")
         plt.show()
 
 
@@ -146,8 +174,9 @@ def generate_analytic_plot():
         plt.ylabel("vertical position")
         plt.legend()
         plt.tight_layout()
-        plt.savefig("Plot.png")
+        plt.savefig("Analytical_vs_Numerical.png")
         plt.show()
+
 
 
 generate_plots()

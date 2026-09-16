@@ -108,3 +108,25 @@ plt.legend()
 plt.savefig("Position vs Time.png")
 plt.grid(alpha=0.3)
 plt.show()
+
+
+# Energy at each step for each method
+# Using the functions I wrote for each method I get x and y and then put them in energy function to calc energy based on each method
+E1 = energy(x1, v1)
+E2 = energy(x2, v2)
+E3 = energy(x3, v3)
+
+# When I plotted RK2 stays close to E_0 (interesting)
+plt.figure(figsize=(10,4))
+plt.plot(t, E1, label='Euler explicit')
+plt.plot(t, E2, label='Euler symplectic')
+plt.plot(t, E3, label='RK2')
+plt.axhline(E_0, color='k', ls='--', alpha=0.5, label='E_0')
+plt.xlabel('t')
+plt.ylabel('E(t)')
+plt.title('energy vs time')
+plt.legend()
+plt.savefig("energy vs time.png")
+plt.grid(alpha=0.3)
+plt.show()
+

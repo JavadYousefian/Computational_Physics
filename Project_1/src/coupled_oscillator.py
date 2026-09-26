@@ -18,3 +18,8 @@ def rhs(t, y):
     a2 = (k * x1 - 2.0 * k * x2) / m
     return np.array([v1, v2, a1, a2])
 
+
+
+# normal-mode angular frequencies
+omega_plus = np.sqrt(k / m)        # in-phase mode:  x1 = x2
+omega_minus = np.sqrt(3 * k / m)   # out-of-phase mode:  x1 = -x2

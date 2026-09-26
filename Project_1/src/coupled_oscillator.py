@@ -18,10 +18,3 @@ def rhs(t, y):
     a2 = (k * x1 - 2.0 * k * x2) / m
     return np.array([v1, v2, a1, a2])
 
-# Hand-written ODE integrators.
-
-def euler_step(f, t, y, h):
-    # One step of forward Euler method.
-    # y_{n+1} = y_n + h * f(t_n, y_n)
-
-    return y + h * f(t, y)

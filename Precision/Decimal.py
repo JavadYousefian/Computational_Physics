@@ -21,10 +21,10 @@ class Calculator:
     def div(self):
         if self.b == 0:
             print("division by zero")
+        else:
+            return str(self.a / self.b)
 
-        return str(self.a / self.b)
-
-c = Calculator("0.100000002", "0.200000002")
+c = Calculator("0.100000002", "0.2525101202383")
 print(c.add())          
 print(c.sub())   
 print(c.mul())   

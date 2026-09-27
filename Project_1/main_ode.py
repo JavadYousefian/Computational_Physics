@@ -54,4 +54,47 @@ def experiment_solutions():
 
 
 
+
+
+def experiment_energy():
+    # physical test 1: energy conservation
+    # Euler grows a lot, RK4 stays almost flat
+    y0 = np.array([1.0, 0.0, 0.0, 0.0])
+    t_end = 30.0
+    h = 0.05
+
+    ts, ys_euler = integrate(rhs, 0.0, y0, t_end, h, method="euler")
+    ts, ys_rk4 = integrate(rhs, 0.0, y0, t_end, h, method="rk4")
+
+    E0 = energy(y0)
+    E_euler = energy(ys_euler)
+    E_rk4 = energy(ys_rk4)
+
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(7.5, 5.5), sharex=True)
+
+    ax1.plot(ts, E_euler / E0, "r-", label=f"Euler (h={h})")
+    ax1.plot(ts, E_rk4 / E0, "b-", label=f"RK4 (h={h})")
+    ax1.axhline(1.0, color="k", linestyle=":")
+    ax1.set_ylabel("E(t) / E(0)")
+    ax1.grid(True, alpha=0.3)
+    ax1.legend()
+
+    ax2.plot(ts, np.abs(E_rk4 - E0) / E0, "b-", label=f"RK4 (h={h})")
+    ax2.set_yscale("log")
+    ax2.set_ylabel("|E(t) - E(0)| / E(0)")
+    ax2.set_xlabel("time")
+    ax2.grid(True, which="both", alpha=0.3)
+    ax2.legend()
+
+    fig.suptitle("Energy conservation")
+    fig.tight_layout()
+
+    path = os.path.join(fig_dir, "ode_energy.png")
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+    print(f"saved {path}")
+
+
+
 experiment_solutions()
+experiment_energy()

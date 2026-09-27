@@ -51,3 +51,18 @@ def exact_solution(t, y0):
     v2 = (p_plus - p_minus) / np.sqrt(2.0)
 
     return np.stack([x1, x2, v1, v2], axis=-1)
+
+
+
+def energy(y):
+    # total energy = kinetic + potential
+    # KE = (1/2) m (v1^2 + v2^2)
+    # PE = (1/2) k [x1^2 + (x2-x1)^2 + x2^2]   (three springs)
+    y = np.asarray(y)
+    x1 = y[..., 0]
+    x2 = y[..., 1]
+    v1 = y[..., 2]
+    v2 = y[..., 3]
+    KE = 0.5 * m * (v1**2 + v2**2)
+    PE = 0.5 * k * (x1**2 + (x2 - x1)**2 + x2**2)
+    return KE + PE

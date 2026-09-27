@@ -5,9 +5,14 @@ Numerical integrators for two classical-mechanics problems, both of which have e
 
 
 ## Install
-Needs Python 3 with numpy, scipy, and matplotlib. Install with: pip install -r requirements.txt
+Needs Python 3 with numpy, scipy, and matplotlib. Install with:
 
+    pip install -r requirements.txt
 
 ## Run
-Two main scripts, one for each problem: python main_ode.py and python main_integral.py
+Two main scripts, one for each problem:
+
+    python main_ode.py
+    python main_integral.py
+
 Both make figures in `report/figures/`.

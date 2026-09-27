@@ -112,5 +112,59 @@ def experiment_convergence():
 
 
 
+
+
+def experiment_limits():
+    # check the two physical limits from my plan:
+    # short time  T << tau  ->  x(T) ~ v0*T
+    # long time   T -> inf  ->  x(T) -> v0*tau
+
+    # range of T
+    Ts = np.linspace(0.01, 20.0 * tau, 40)
+
+    # use Simpson with even n (careful, n must be even)
+    numeric = []
+    for T in Ts:
+        n = int(20 * T / tau)
+        if n < 4:
+            n = 4
+        if n % 2 != 0:
+            n = n + 1
+        numeric.append(simpson(velocity, 0.0, T, n))
+    numeric = np.array(numeric)
+
+    exact = np.array([exact_distance(T) for T in Ts])
+
+    # two side-by-side plots
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+
+    # left: full curve with both asymptotes
+    ax1.plot(Ts / tau, exact, "k-", label="exact")
+    ax1.plot(Ts / tau, numeric, "bo", markersize=3, label="Simpson")
+    ax1.axhline(v0 * tau, color="r", linestyle=":", label="v0*tau")
+    ax1.plot(Ts / tau, v0 * Ts, "g--", label="v0*T (no drag)")
+    ax1.set_xlabel("T / tau")
+    ax1.set_ylabel("x(T)")
+    ax1.set_ylim(0.0, 1.3 * v0 * tau)
+    ax1.set_title("Approach to asymptote")
+    ax1.legend(fontsize=8)
+
+    # right: short time deviation from v0*T
+    small_Ts = np.linspace(0.001, 0.5, 30) * tau
+    small_num = np.array([simpson(velocity, 0.0, T, 32) for T in small_Ts])
+    deviation = (small_num - v0 * small_Ts) / (v0 * small_Ts)
+    ax2.plot(small_Ts / tau, deviation, "bo-", markersize=3)
+    ax2.set_xlabel("T / tau")
+    ax2.set_ylabel("(x_num - v0*T) / (v0*T)")
+    ax2.set_title("Short-time deviation")
+
+    plt.tight_layout()
+    path = os.path.join(fig_dir, "integral_limits.png")
+    plt.savefig(path)
+    plt.close()
+    print("saved", path)
+
+
 experiment_solutions()
 experiment_convergence()
+experiment_limits()

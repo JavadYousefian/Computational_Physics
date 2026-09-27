@@ -17,3 +17,17 @@ def trapezoid(f, a, b, n):
     xs = np.linspace(a, b, n + 1)
     ys = f(xs)
     return h * (0.5 * ys[0] + np.sum(ys[1:-1]) + 0.5 * ys[-1])
+
+
+
+
+def simpson(f, a, b, n):
+    # Simpson's 1/3 rule
+    # needs n to be even
+    # (h/3) * [f(x0) + f(xn) + 4*sum(odd points) + 2*sum(even interior points)]
+    if n % 2 != 0:
+        raise ValueError("Simpson needs even n")
+    h = (b - a) / n
+    xs = np.linspace(a, b, n + 1)
+    ys = f(xs)
+    return (h / 3.0) * (ys[0] + ys[-1] + 4.0 * np.sum(ys[1:-1:2]) + 2.0 * np.sum(ys[2:-1:2]))

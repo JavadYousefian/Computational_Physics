@@ -19,8 +19,6 @@ def trapezoid(f, a, b, n):
     return h * (0.5 * ys[0] + np.sum(ys[1:-1]) + 0.5 * ys[-1])
 
 
-
-
 def simpson(f, a, b, n):
     # Simpson's 1/3 rule
     # needs n to be even

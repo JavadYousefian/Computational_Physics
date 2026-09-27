@@ -111,9 +111,6 @@ def experiment_convergence():
     print("  Simpson slope   =", slope_s)
 
 
-
-
-
 def experiment_limits():
     # check the two physical limits from my plan:
     # short time  T << tau  ->  x(T) ~ v0*T

@@ -128,6 +128,55 @@ def experiment_beating():
 
 
 
+
+def experiment_convergence():
+    # convergence study
+    # expect Euler slope 1, RK4 slope 4
+    # use short t_end = 5 so Euler amplitude drift doesn't spoil the slope
+    y0 = np.array([1.0, 0.0, 0.0, 0.0])
+    t_end = 5.0
+    ns = np.array([50, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600])
+    hs = t_end / ns
+
+    y_true = exact_solution(np.array([t_end]), y0)[0]
+
+    err_e = np.empty_like(hs)
+    err_r = np.empty_like(hs)
+    for i, h in enumerate(hs):
+        _, y_e = integrate(rhs, 0.0, y0, t_end, h, method="euler")
+        _, y_r = integrate(rhs, 0.0, y0, t_end, h, method="rk4")
+        err_e[i] = np.linalg.norm(y_e[-1] - y_true, np.inf)
+        err_r[i] = np.linalg.norm(y_r[-1] - y_true, np.inf)
+
+    mid = len(hs) // 2
+    ref_e = err_e[mid] * (hs / hs[mid]) ** 1
+    ref_r = err_r[mid] * (hs / hs[mid]) ** 4
+
+    fig, ax = plt.subplots(figsize=(7.0, 5.0))
+    ax.loglog(hs, err_e, "ro-", label="Euler")
+    ax.loglog(hs, err_r, "bs-", label="RK4")
+    ax.set_xlabel("step size h")
+    ax.set_ylabel("|error at t_end|")
+    ax.set_title(f"ODE convergence (t_end = {t_end})")
+    ax.grid(True, which="both", alpha=0.3)
+    ax.legend()
+    fig.tight_layout()
+
+    path = os.path.join(fig_dir, "ode_convergence.png")
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+    print(f"saved {path}")
+
+    # print slopes
+    slope_e = np.polyfit(np.log(hs[2:]), np.log(err_e[2:]), 1)[0]
+    mask = err_r > 1e-12
+    slope_r = np.polyfit(np.log(hs[mask]), np.log(err_r[mask]), 1)[0]
+    print(f"  Euler slope = {slope_e:.3f}")
+    print(f"  RK4 slope   = {slope_r:.3f}")
+
+
+
 experiment_solutions()
 experiment_energy()
 experiment_beating()
+experiment_convergence()

@@ -94,7 +94,40 @@ def experiment_energy():
     plt.close(fig)
     print(f"saved {path}")
 
+def experiment_beating():
+    # physical test 2: single mass IC excites both modes -> beating pattern
+    # slow envelope frequency = (omega_minus - omega_plus) / 2
+    from src.coupled_oscillator import omega_plus, omega_minus
+
+    y0 = np.array([1.0, 0.0, 0.0, 0.0])
+    t_end = 60.0
+    h = 0.05
+
+    ts, ys = integrate(rhs, 0.0, y0, t_end, h, method="rk4")
+    y_exact = exact_solution(ts, y0)
+
+    omega_beat = 0.5 * (omega_minus - omega_plus)
+    envelope = np.cos(omega_beat * ts)
+
+    fig, ax = plt.subplots(figsize=(8.0, 4.0))
+    ax.plot(ts, ys[:, 0], "b-", label="x1 (RK4)", linewidth=0.9)
+    ax.plot(ts, y_exact[:, 0], "k--", label="x1 (exact)", linewidth=0.7)
+    ax.plot(ts, envelope, "r:", label="beat envelope")
+    ax.plot(ts, -envelope, "r:")
+    ax.set_xlabel("time")
+    ax.set_ylabel("x1(t)")
+    ax.set_title("Beating from single-mass initial condition")
+    ax.grid(True, alpha=0.3)
+    ax.legend(fontsize=8)
+    fig.tight_layout()
+
+    path = os.path.join(fig_dir, "ode_beating.png")
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+    print(f"saved {path}")
+
 
 
 experiment_solutions()
 experiment_energy()
+experiment_beating()

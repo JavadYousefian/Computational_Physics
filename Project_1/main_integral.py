@@ -91,15 +91,12 @@ def experiment_convergence():
     plt.loglog(hs, err_s, "g^-", label="Simpson (mine)")
     plt.loglog(hs, err_t_scipy, "bx", label="Trapezoid (scipy)")
     plt.loglog(hs, err_s_scipy, "g+", label="Simpson (scipy)")
-    plt.loglog(hs, ref_r, "r:", label="h^1")
-    plt.loglog(hs, ref_t, "b:", label="h^2")
-    plt.loglog(hs, ref_s, "g:", label="h^4")
     plt.xlabel("step size h")
     plt.ylabel("|error|")
     plt.title("Quadrature convergence")
     plt.legend(fontsize=7)
 
-    path = os.path.join(FIG_DIR, "integral_convergence.png")
+    path = os.path.join(fig_dir, "integral_convergence.png")
     plt.savefig(path)
     plt.close()
     print("saved", path)
@@ -109,9 +106,9 @@ def experiment_convergence():
     slope_t = np.polyfit(np.log(hs), np.log(err_t), 1)[0]
     mask = err_s > 1e-13
     slope_s = np.polyfit(np.log(hs[mask]), np.log(err_s[mask]), 1)[0]
-    print("  Riemann slope   =", slope_r, "(expect 1)")
-    print("  Trapezoid slope =", slope_t, "(expect 2)")
-    print("  Simpson slope   =", slope_s, "(expect 4)")
+    print("  Riemann slope   =", slope_r)
+    print("  Trapezoid slope =", slope_t)
+    print("  Simpson slope   =", slope_s)
 
 
 

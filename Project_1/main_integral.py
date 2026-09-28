@@ -170,4 +170,64 @@ plt.tight_layout()
 plt.savefig("report/figures/integral_limits.png")
 plt.close()
 
+
+# fourth experiment: local (one step) error scaling
+# The convergence test above measures GLOBAL error over the whole interval.
+# But the assignment also asks me to check the LOCAL error (error on one
+# sub-interval, before adding up all the sub-intervals).
+# From Section 4 of the report, theory says:
+#   Riemann local error goes like h^2
+#   Trapezoid local error goes like h^3
+#   Simpson local error goes like h^5
+# I check this by applying each rule to just ONE sub-interval of width h
+# (or a pair 2h for Simpson because it needs even n) and comparing to the
+# exact integral over that same small interval.
+print("experiment 4: local error")
+
+hs_local = np.array([0.5, 0.25, 0.125, 0.0625, 0.03125, 0.015625, 0.0078125])
+
+err_ri_local = []
+err_tr_local = []
+err_si_local = []
+for h in hs_local:
+    # Riemann and trapezoid: apply on [0, h] with 1 sub-interval
+    exact_h = exact_distance(h)
+    err_ri_local.append(abs(riemann(velocity, 0.0, h, 1) - exact_h))
+    err_tr_local.append(abs(trapezoid(velocity, 0.0, h, 1) - exact_h))
+    # Simpson needs even n, so apply on [0, 2h] with n=2 (one pair of intervals)
+    exact_2h = exact_distance(2 * h)
+    err_si_local.append(abs(simpson(velocity, 0.0, 2 * h, 2) - exact_2h))
+
+err_ri_local = np.array(err_ri_local)
+err_tr_local = np.array(err_tr_local)
+err_si_local = np.array(err_si_local)
+
+# reference lines with slopes 2, 3, 5
+ref_ri_local = err_ri_local[0] * (hs_local / hs_local[0]) ** 2
+ref_tr_local = err_tr_local[0] * (hs_local / hs_local[0]) ** 3
+ref_si_local = err_si_local[0] * (hs_local / hs_local[0]) ** 5
+
+plt.loglog(hs_local, err_ri_local, "ro-", label="Riemann")
+plt.loglog(hs_local, err_tr_local, "bs-", label="Trapezoid")
+plt.loglog(hs_local, err_si_local, "g^-", label="Simpson")
+plt.loglog(hs_local, ref_ri_local, "r:", label="slope 2")
+plt.loglog(hs_local, ref_tr_local, "b:", label="slope 3")
+plt.loglog(hs_local, ref_si_local, "g:", label="slope 5")
+plt.xlabel("step size h")
+plt.ylabel("|error on 1 sub-interval|")
+plt.title("Quadrature local error")
+plt.legend()
+plt.savefig("report/figures/integral_local_error.png")
+plt.close()
+
+# check the slopes are close to 2, 3, 5
+slope_ri_local = np.polyfit(np.log(hs_local), np.log(err_ri_local), 1)[0]
+slope_tr_local = np.polyfit(np.log(hs_local), np.log(err_tr_local), 1)[0]
+mask = err_si_local > 1e-14
+slope_si_local = np.polyfit(np.log(hs_local[mask]), np.log(err_si_local[mask]), 1)[0]
+print("Riemann local slope   =", slope_ri_local)
+print("Trapezoid local slope =", slope_tr_local)
+print("Simpson local slope   =", slope_si_local)
+
+
 print("done")

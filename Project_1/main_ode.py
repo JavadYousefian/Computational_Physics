@@ -163,4 +163,55 @@ slope_r = np.polyfit(np.log(hs[mask]), np.log(err_r[mask]), 1)[0]
 print("Euler slope =", slope_e)
 print("RK4 slope   =", slope_r)
 
+
+# fifth experiment: local (one step) error scaling
+# The convergence test above measures GLOBAL error at the end of the run.
+# But the assignment also asks me to check the LOCAL (one step) error.
+# From Section 4 of the report, theory says:
+#   Euler local error goes like h^2
+#   RK4 local error goes like h^5
+# I check this by taking ONE step of each method from t=0 with different h
+# and comparing to the exact solution at that same h.
+print("experiment 5: local one step error")
+
+from src.ode_integrators import euler_step, rk4_step
+
+y0 = np.array([1.0, 0.0, 0.0, 0.0])
+hs_local = np.array([0.5, 0.25, 0.125, 0.0625, 0.03125, 0.015625, 0.0078125])
+
+err_e_local = []
+err_r_local = []
+for h in hs_local:
+    y_e = euler_step(rhs, 0.0, y0, h)   # one step of Euler
+    y_r = rk4_step(rhs, 0.0, y0, h)     # one step of RK4
+    y_true = exact_solution(np.array([h]), y0)[0]
+    err_e_local.append(np.linalg.norm(y_e - y_true, np.inf))
+    err_r_local.append(np.linalg.norm(y_r - y_true, np.inf))
+
+err_e_local = np.array(err_e_local)
+err_r_local = np.array(err_r_local)
+
+# reference lines with slopes 2 and 5
+ref_e_local = err_e_local[0] * (hs_local / hs_local[0]) ** 2
+ref_r_local = err_r_local[0] * (hs_local / hs_local[0]) ** 5
+
+plt.loglog(hs_local, err_e_local, "ro-", label="Euler")
+plt.loglog(hs_local, err_r_local, "bs-", label="RK4")
+plt.loglog(hs_local, ref_e_local, "r:", label="slope 2")
+plt.loglog(hs_local, ref_r_local, "b:", label="slope 5")
+plt.xlabel("step size h")
+plt.ylabel("|error after 1 step|")
+plt.title("ODE local (one step) error")
+plt.legend()
+plt.savefig("report/figures/ode_local_error.png")
+plt.close()
+
+# check the slopes are close to 2 and 5
+slope_e_local = np.polyfit(np.log(hs_local), np.log(err_e_local), 1)[0]
+mask = err_r_local > 1e-14
+slope_r_local = np.polyfit(np.log(hs_local[mask]), np.log(err_r_local[mask]), 1)[0]
+print("Euler local slope =", slope_e_local)
+print("RK4 local slope   =", slope_r_local)
+
+
 print("done")

@@ -15,9 +15,6 @@ Two main scripts, one for each problem:
     python main_ode.py
     python main_integral.py
 
-Both make figures in `report/figures/`.
-
-
 ## Files
 
 - `main_ode.py` — runs all experiments for the coupled oscillator
@@ -27,4 +24,4 @@ Both make figures in `report/figures/`.
 - `src/ode_integrators.py` — Euler and RK4 written by hand
 - `src/quad_integrators.py` — Riemann, trapezoid, Simpson written by hand
 - `report/report.pdf` — Report write-up (I used LATEX and converted to PDF)
-- `report/figures/` — figures made by the main scripts
+- `figures/` — figures made by the main scripts

@@ -6,7 +6,7 @@ import numpy as np
 
 def euler_step(f, t, y, h):
     # One step of forward Euler.
-    #
+    
     # Where it comes from: Taylor expansion of y(t+h) around t is
     #   y(t + h) = y(t) + h*y'(t) + (h^2/2)*y''(t) + ...
     # Euler keeps only the first two terms and drops the rest.
@@ -25,14 +25,13 @@ def rk4_step(f, t, y, h):
     #   k3 = slope at the midpoint again but using k2
     #   k4 = slope at the end using k3
     # Then combine them with weights (1, 2, 2, 1)/6 which is the standard
-    # Butcher tableau. I didn't derive the weights, I used them as given.
     k1 = f(t, y)
     k2 = f(t + 0.5 * h, y + 0.5 * h * k1)
     k3 = f(t + 0.5 * h, y + 0.5 * h * k2)
     k4 = f(t + h, y + h * k3)
     return y + (h / 6.0) * (k1 + 2.0 * k2 + 2.0 * k3 + k4)
 
-
+# This is ODE integrator by hand
 def integrate(f, t0, y0, t_end, h, method="rk4"):
     # Integrate y' = f(t, y) from t0 to t_end with fixed step h.
     # Choose method with method="euler" or method="rk4".

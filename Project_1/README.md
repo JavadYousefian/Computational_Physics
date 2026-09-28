@@ -25,3 +25,4 @@ Two main scripts, one for each problem:
 - `src/quad_integrators.py` — Riemann, trapezoid, Simpson written by hand
 - `report/report.pdf` — Report write-up (I used LATEX and converted to PDF)
 - `figures/` — figures made by the main scripts
+- `plan/` - Plan for my project that i wanted to do

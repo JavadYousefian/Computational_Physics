@@ -4,7 +4,8 @@
 
 import numpy as np
 
-
+# Reiemann is asked in the project 1
+# Equation 5 in my plan 
 def riemann(f, a, b, n):
     # Left Riemann sum: approximate the area under f by rectangles.
     # For each sub-interval, use the value of f at the LEFT endpoint
@@ -15,7 +16,7 @@ def riemann(f, a, b, n):
     xs = a + h * np.arange(n)   # left endpoints x_0, x_1, ..., x_{n-1}
     return h * np.sum(f(xs))
 
-
+# Trapezoidal rule as it is asked 
 def trapezoid(f, a, b, n):
     # Trapezoidal rule: approximate f by a straight line on each sub-interval,
     # not by a flat rectangle. So each sub-interval area is a trapezoid,
@@ -28,12 +29,12 @@ def trapezoid(f, a, b, n):
     ys = f(xs)
     return h * (0.5 * ys[0] + np.sum(ys[1:-1]) + 0.5 * ys[-1])
 
-
+# Simpson as it is asked
 def simpson(f, a, b, n):
     # Simpson's 1/3 rule: approximate f by a parabola across every 2
     # sub-intervals (so it takes 3 points to fit each parabola).
     # This is why n must be even.
-    #
+    
     # The rule can be written as:
     #   (h/3) * [f(x_0) + f(x_n) + 4*sum(f at odd indices) + 2*sum(f at even interior indices)]
     # Much more accurate than the other two (4th order) because it also

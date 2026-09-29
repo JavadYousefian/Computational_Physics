@@ -49,7 +49,7 @@ plt.xlabel("time")
 plt.ylabel("velocity")
 plt.title("Stopping distance integrand")
 plt.legend()
-plt.savefig("report/figures/integral_solutions.png")
+plt.savefig("figures/integral_solutions.png")
 plt.close()
 
 
@@ -105,7 +105,7 @@ plt.xlabel("step size h")
 plt.ylabel("|error|")
 plt.title("Quadrature convergence")
 plt.legend()
-plt.savefig("report/figures/integral_convergence.png")
+plt.savefig("figures/integral_convergence.png")
 plt.close()
 
 # fit slopes to check they match 1, 2, 4
@@ -167,7 +167,7 @@ plt.ylabel("(x_num - v0*T) / (v0*T)")
 plt.title("Short-time deviation")
 
 plt.tight_layout()
-plt.savefig("report/figures/integral_limits.png")
+plt.savefig("figures/integral_limits.png")
 plt.close()
 
 
@@ -217,7 +217,7 @@ plt.xlabel("step size h")
 plt.ylabel("|error on 1 sub-interval|")
 plt.title("Quadrature local error")
 plt.legend()
-plt.savefig("report/figures/integral_local_error.png")
+plt.savefig("figures/integral_local_error.png")
 plt.close()
 
 # check the slopes are close to 2, 3, 5

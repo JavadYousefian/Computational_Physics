@@ -22,7 +22,7 @@ def add(a, b):
     second = np.array(d) + np.array(e)
     first = int(a[0]) + int(b[0])
 
-    print(str(first + "."  + "".join(map(str, second))))
+    print(str(first) + "." + str("".join(map(str, second))))
 
 
-print(add(a,b))
+add(a,b)

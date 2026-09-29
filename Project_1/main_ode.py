@@ -11,7 +11,7 @@ from src.coupled_oscillator import rhs, exact_solution, energy, omega_plus, omeg
 
 
 # make sure the figures folder exists
-os.makedirs("report/figures", exist_ok=True)
+os.makedirs("figures", exist_ok=True)
 
 
 # first experiment: compare my Euler, my RK4, scipy and the exact solution
@@ -43,7 +43,7 @@ plt.xlabel("time")
 plt.ylabel("x1(t)")
 plt.title("Coupled oscillator solutions")
 plt.legend()
-plt.savefig("report/figures/ode_solutions.png")
+plt.savefig("figures/ode_solutions.png")
 plt.close()
 
 
@@ -78,7 +78,7 @@ plt.xlabel("time")
 plt.legend()
 
 plt.tight_layout()
-plt.savefig("report/figures/ode_energy.png")
+plt.savefig("figures/ode_energy.png")
 plt.close()
 
 
@@ -109,7 +109,7 @@ plt.xlabel("time")
 plt.ylabel("x1(t)")
 plt.title("Beating from single-mass IC")
 plt.legend()
-plt.savefig("report/figures/ode_beating.png")
+plt.savefig("figures/ode_beating.png")
 plt.close()
 
 
@@ -151,7 +151,7 @@ plt.xlabel("step size h")
 plt.ylabel("|error at t_end|")
 plt.title("ODE convergence")
 plt.legend()
-plt.savefig("report/figures/ode_convergence.png")
+plt.savefig("figures/ode_convergence.png")
 plt.close()
 
 # check the slopes are close to 1 and 4
@@ -203,7 +203,7 @@ plt.xlabel("step size h")
 plt.ylabel("|error after 1 step|")
 plt.title("ODE local (one step) error")
 plt.legend()
-plt.savefig("report/figures/ode_local_error.png")
+plt.savefig("figures/ode_local_error.png")
 plt.close()
 
 # check the slopes are close to 2 and 5

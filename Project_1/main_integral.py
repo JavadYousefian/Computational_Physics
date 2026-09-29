@@ -12,7 +12,7 @@ from src.drag_stopping import velocity, exact_distance, v0, tau
 
 
 # make sure the figures folder exists
-os.makedirs("report/figures", exist_ok=True)
+os.makedirs("figures", exist_ok=True)
 
 
 # first experiment: compare all three rules to the exact answer at fixed n

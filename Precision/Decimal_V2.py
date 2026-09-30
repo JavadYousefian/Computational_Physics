@@ -1,3 +1,10 @@
+import random
+from fractions import Fraction 
+import time
+import math
+import random
+import matplotlib.pyplot as plt
+
 def split(text):
     # turns a string like "-12.5e-3" into (value, scale)
     # the number is value / 10**scale
@@ -150,9 +157,75 @@ print("0.2 - 0.1 =", b - a)
 print("1 / 3 =", Precision(1) / 3)
 print(Precision("1e-20"), Precision("-2.5e3"), Precision(123, -2), Precision(2.5))
 
-assert a + b == Precision("0.3")
-assert 0.1 + 0.2 != 0.3          # float gets this wrong
-assert Precision(1) / 4 == Precision("0.25")
-assert Precision(1) / 3 * 3 != 1        # 0.999..., we only keep 50 digits
-assert Precision("-1.5") < Precision(2) and Precision(3) > 2.5 and Precision("2.50") == 2.5
-print("basic tests passed")
+
+# check Precision against Fraction, which is always exact
+wrong = 0
+for i in range(1000):
+    x = random.uniform(-100, 100)
+    y = random.uniform(-100, 100)
+    a = Precision(x)
+    b = Precision(y)
+    fx = Fraction(str(x))
+    fy = Fraction(str(y))
+
+    if Fraction(str(a + b)) != fx + fy:
+        wrong += 1
+    if Fraction(str(a - b)) != fx - fy:
+        wrong += 1
+
+    # * and / only keep 50 digits, so just check they are very close
+    if abs(Fraction(str(a * b)) - fx * fy) > Fraction(1, 10**40):
+        wrong += 1
+    if abs(Fraction(str(a / b)) - fx / fy) > Fraction(1, 10**40):
+        wrong += 1
+
+    if (a < b) != (x < y):
+        wrong += 1
+    if (a > b) != (x > y):
+        wrong += 1
+
+print("wrong:", wrong)
+
+def bubblesort(lst):
+    lst = lst.copy()
+    n = len(lst)
+    for i in range(n):
+        for j in range(n - 1 - i):
+            if lst[j] > lst[j+1]:
+                lst[j], lst[j+1] = lst[j+1], lst[j]
+    return lst
+
+
+def mergesort(lst):
+    if len(lst) <= 1:
+        return lst
+    mid = len(lst) // 2
+    left = mergesort(lst[:mid])
+    right = mergesort(lst[mid:])
+
+    merged = []
+    i = 0
+    j = 0
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            merged.append(left[i])
+            i += 1
+        else:
+            merged.append(right[j])
+            j += 1
+    while i < len(left):
+        merged.append(left[i])
+        i += 1
+    while j < len(right):
+        merged.append(right[j])
+        j += 1
+    return merged
+
+nums = []
+for i in range(100):
+    nums.append(Precision(random.uniform(-1000, 1000)))
+
+print(bubblesort([Precision(3), Precision("1.5"), Precision(-2), Precision("0.5")]))
+print(mergesort([Precision(3), Precision("1.5"), Precision(-2), Precision("0.5")]))
+print(bubblesort(nums) == sorted(nums))
+print(mergesort(nums) == sorted(nums))

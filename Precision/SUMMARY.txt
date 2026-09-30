@@ -1,0 +1,22 @@
+We wrote a class Precision that stores a number as two integers, value and scale,
+meaning value / 10^scale (for example 12.34 = 1234 / 10^2). Adding and subtracting are
+exact, and multiplying and dividing keep 50 digits. We checked it against Python's
+fractions module on 1000 random pairs and found 0 mistakes.
+
+Where float breaks (small_steps.png)
+We started from a big number and added 0.0001 one hundred thousand times, which should
+add exactly 10. Float was right when starting from small numbers, but it added 10.0017
+starting from 10^9, 12.2 from 10^12, and 0 from 10^13. Float keeps only about 16 digits,
+so when the big number is too big, the 0.0001 falls off. Precision added exactly 10
+every time.
+
+Sorting (sort_timing.png)
+We sorted lists of random Precision numbers with bubble sort and merge sort. Bubble sort
+grows like n^2 (slope about 2.0 on the log-log plot) and merge sort like n log n (slope
+about 1.15), as expected.
+
+Profiling
+About half of merge sort's time is spent comparing numbers, inside line_up, which
+multiplies both numbers by a power of 10 every time. We wrote line_up2, which multiplies
+only the one that needs it. With line_up2, merge sort was about 1.4 times faster.
+Precision is still about 5 times slower than float. That is the cost of exact answers.

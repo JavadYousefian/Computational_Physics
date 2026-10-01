@@ -277,6 +277,8 @@ def make_list(n):
         lst.append(Precision(random.random()))
     return lst
 
+
+# I used this array since I remembered it based on what I do in my research :)
 sizes1 = [100, 200, 400, 800, 1600, 3200]
 times1 = []
 for n in sizes1:
@@ -287,6 +289,7 @@ for n in sizes1:
     times1.append(t1 - t0)
     print("bubble", n, t1 - t0)
 
+# I used this array since I remembered it based on what I do in my research :)
 sizes2 = [100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200, 102400]
 times2 = []
 for n in sizes2:

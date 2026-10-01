@@ -40,7 +40,7 @@ def join(value, scale):
 
 
 def cut(value, scale, digits):
-    # keep only the first `digits` digits of value, rounding the rest (half up)
+    # keep only the first digits of value, rounding the rest (half up)
     extra = len(str(abs(value))) - digits
     if extra <= 0:
         return value, scale
@@ -49,9 +49,10 @@ def cut(value, scale, digits):
     value = (value + 5 * 10 ** (extra - 1)) // 10 ** extra
     return sign * value, scale - extra
 
-
+# Now the class using the functions written above
 class Precision:
-    digits = 50   # how many digits to keep after * and /
+    # how many digits to keep after * and /
+    digits = 50   
 
     def __init__(self, x, scale=0):
         if type(x) == int:
@@ -91,7 +92,7 @@ class Precision:
     def __truediv__(self, other):
         other = make_precision(other)
         if other.value == 0:
-            raise ZeroDivisionError("It is divided by zero")
+            print("It is divided by zero")
         # make the top big enough that the answer has more digits than we keep
         shift = Precision.digits + len(str(abs(other.value))) + 1
         q = abs(self.value) * 10 ** shift // abs(other.value)
@@ -148,15 +149,22 @@ def make_precision(x):
         return x
     return Precision(x)
 
-a = Precision("0.1")
-b = Precision("0.2")
-print("0.1 + 0.2 with Precision:", a + b)
-print("0.1 + 0.2 with float:    ", 0.1 + 0.2)
-print("0.1 * 0.2 =", a * b)
-print("0.2 - 0.1 =", b - a)
-print("1 / 3 =", Precision(1) / 3)
-print(Precision("1e-20"), Precision("-2.5e3"), Precision(123, -2), Precision(2.5))
+first = input("You wanna give an input or the program does it? (Y,N) ")
 
+if first.upper() == "Y":
+    a = str(input("First: "))
+    a = Precision(a)
+    b = str(input("Second: "))
+    b = Precision(b)
+elif first.upper() == "N":
+    a = Precision("0.1")
+    b = Precision("0.2")
+    print("0.1 + 0.2 with Precision:", a + b)
+    print("0.1 + 0.2 with float:    ", 0.1 + 0.2)
+    print("0.1 * 0.2 =", a * b)
+    print("0.2 - 0.1 =", b - a)
+    print("1 / 3 =", Precision(1) / 3)
+    print(Precision("1e-20"), Precision("-2.5e3"), Precision(123, -2), Precision(2.5))
 
 # check Precision against Fraction, which is always exact
 wrong = 0
@@ -269,7 +277,6 @@ def make_list(n):
         lst.append(Precision(random.random()))
     return lst
 
-
 sizes1 = [100, 200, 400, 800, 1600, 3200]
 times1 = []
 for n in sizes1:
@@ -330,12 +337,13 @@ def line_up2(self, other):
         x = self.value * 10 ** (other.scale - self.scale)
         return x, other.value, other.scale
 
-
+# This function creates list based on the small random numbers using the Precision class written so it wont have wrong round numbers that float does
 lst = make_list(20000)
 floats = []
 for x in lst:
     floats.append(float(x))
 
+# Finding how long it takes so before runnning is a time.time() and after again and substract them
 t0 = time.perf_counter()
 mergesort(floats)
 t_float = time.perf_counter() - t0

@@ -11,7 +11,7 @@ from src.coupled_oscillator import rhs, exact_solution, energy, omega_plus, omeg
 
 
 # make sure the figures folder exists
-os.makedirs("figures", exist_ok=True)
+os.makedirs("figures")
 
 
 # first experiment: compare my Euler, my RK4, scipy and the exact solution
@@ -45,7 +45,6 @@ plt.title("Coupled oscillator solutions")
 plt.legend()
 plt.savefig("figures/ode_solutions.png")
 plt.close()
-
 
 # second experiment: energy conservation (physical test 1 from my plan)
 # There is no friction, so total energy should stay constant.
@@ -168,8 +167,8 @@ print("RK4 slope   =", slope_r)
 # The convergence test above measures GLOBAL error at the end of the run.
 # But the assignment also asks me to check the LOCAL (one step) error.
 # From Section 4 of the report, theory says:
-#   Euler local error goes like h^2
-#   RK4 local error goes like h^5
+# Euler local error goes like h^2
+# RK4 local error goes like h^5
 # I check this by taking ONE step of each method from t=0 with different h
 # and comparing to the exact solution at that same h.
 print("experiment 5: local one step error")
@@ -214,4 +213,4 @@ print("Euler local slope =", slope_e_local)
 print("RK4 local slope   =", slope_r_local)
 
 
-print("done")
+print("done (I wanna make sure)")

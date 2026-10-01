@@ -12,7 +12,7 @@ from src.drag_stopping import velocity, exact_distance, v0, tau
 
 
 # make sure the figures folder exists
-os.makedirs("figures", exist_ok=True)
+os.makedirs("figures", exist_ok="True")
 
 
 # first experiment: compare all three rules to the exact answer at fixed n
@@ -55,9 +55,9 @@ plt.close()
 
 # second experiment: convergence study
 # Each rule has an expected global error scaling like h^p:
-#   Riemann (left):   p = 1
-#   Trapezoid:        p = 2
-#   Simpson:          p = 4
+# Riemann (left):   p = 1
+# Trapezoid:        p = 2
+# Simpson:          p = 4
 # So on a log-log plot of |error| vs step size h, I should see straight
 # lines with slopes 1, 2, 4.
 print("experiment 2: convergence")
@@ -121,10 +121,10 @@ print("Simpson slope   =", slope_s)
 
 # third experiment: physical limits from my plan
 # Short time (T << tau): the object hasn't slowed much yet, so
-#   x(T) ~ v0*T   (like free motion with no drag)
+# x(T) ~ v0*T   (like free motion with no drag)
 # Long time (T -> infinity): the object never fully stops but the total
 # distance is finite. From the exact formula:
-#   x_infinity = v0*tau
+# x_infinity = v0*tau
 # So the numerical curve should approach v0*tau as T grows.
 print("experiment 3: physical limits")
 
@@ -176,9 +176,9 @@ plt.close()
 # But the assignment also asks me to check the LOCAL error (error on one
 # sub-interval, before adding up all the sub-intervals).
 # From Section 4 of the report, theory says:
-#   Riemann local error goes like h^2
-#   Trapezoid local error goes like h^3
-#   Simpson local error goes like h^5
+# Riemann local error goes like h^2
+# Trapezoid local error goes like h^3
+# Simpson local error goes like h^5
 # I check this by applying each rule to just ONE sub-interval of width h
 # (or a pair 2h for Simpson because it needs even n) and comparing to the
 # exact integral over that same small interval.
@@ -229,5 +229,4 @@ print("Riemann local slope   =", slope_ri_local)
 print("Trapezoid local slope =", slope_tr_local)
 print("Simpson local slope   =", slope_si_local)
 
-
-print("done")
+print("done (I wanna make sure)")

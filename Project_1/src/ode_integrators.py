@@ -1,29 +1,28 @@
 # Hand-written ODE integrators.
 # Two methods: forward Euler (simple, 1st order) and RK4 (fancier, 4th order).
 
+# Importing numpy package as it is needed
 import numpy as np
-
 
 def euler_step(f, t, y, h):
     # One step of forward Euler.
-    
     # Where it comes from: Taylor expansion of y(t+h) around t is
-    #   y(t + h) = y(t) + h*y'(t) + (h^2/2)*y''(t) + ...
+    # y(t + h) = y(t) + h*y'(t) + (h^2/2)*y''(t) + ...
     # Euler keeps only the first two terms and drops the rest.
     # So the update rule is:
-    #   y_{n+1} = y_n + h * f(t_n, y_n)
+    # y_{n+1} = y_n + h * f(t_n, y_n)
     # where f = y' is the RHS I'm integrating.
     return y + h * f(t, y)
 
-
+# Fourth order Runge-Kutta method
 def rk4_step(f, t, y, h):
     # One step of classical 4th-order Runge-Kutta.
     # Way more accurate than Euler because it uses 4 slope estimates
     # inside one step instead of just 1:
-    #   k1 = slope at the start
-    #   k2 = slope at the midpoint using k1 to get there
-    #   k3 = slope at the midpoint again but using k2
-    #   k4 = slope at the end using k3
+    # k1 = slope at the start
+    # k2 = slope at the midpoint using k1 to get there
+    # k3 = slope at the midpoint again but using k2
+    # k4 = slope at the end using k3
     # Then combine them with weights (1, 2, 2, 1)/6 which is the standard
     k1 = f(t, y)
     k2 = f(t + 0.5 * h, y + 0.5 * h * k1)
@@ -43,10 +42,10 @@ def integrate(f, t0, y0, t_end, h, method="rk4"):
     elif method == "rk4":
         step = rk4_step
     else:
-        raise ValueError("Unknown method: " + method)
+        print("Try again, Unknown method: " + method)
 
     # allocate arrays for the result
-    y0 = np.asarray(y0, dtype=float)
+    y0 = np.asarray(y0)
     n_steps = int(np.ceil((t_end - t0) / h))
     ts = np.empty(n_steps + 1)
     ys = np.empty((n_steps + 1, y0.size))

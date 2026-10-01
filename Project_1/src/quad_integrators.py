@@ -1,7 +1,9 @@
-# Hand-written quadrature rules for definite integrals.
+# Hand-written quadrature rules for definite integrals. Actually the 3 methods asked for the integrator are here 
+# Which I call them like import in my main code
 # All three rules approximate integral from a to b of f(x) dx.
 # I divide [a,b] into n sub-intervals of width h = (b-a)/n.
 
+# Numpy as before
 import numpy as np
 
 # Reiemann is asked in the project 1
@@ -34,13 +36,12 @@ def simpson(f, a, b, n):
     # Simpson's 1/3 rule: approximate f by a parabola across every 2
     # sub-intervals (so it takes 3 points to fit each parabola).
     # This is why n must be even.
-    
     # The rule can be written as:
-    #   (h/3) * [f(x_0) + f(x_n) + 4*sum(f at odd indices) + 2*sum(f at even interior indices)]
+    # (h/3) * [f(x_0) + f(x_n) + 4*sum(f at odd indices) + 2*sum(f at even interior indices)]
     # Much more accurate than the other two (4th order) because it also
     # gets cubic functions exactly, not just parabolas.
     if n % 2 != 0:
-        raise ValueError("Simpson needs even n")
+        print("Simpson needs even n")
     h = (b - a) / n
     xs = np.linspace(a, b, n + 1)
     ys = f(xs)

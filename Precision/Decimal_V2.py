@@ -15,7 +15,7 @@ def split(text):
         text = text[1:]
     whole, _, frac = text.partition(".")
     if not (whole + frac).isdigit():
-        raise ValueError("not a number: " + text)
+        print("not a number: " + text)
     value = int(whole + frac)
     if negative:
         value = -value
